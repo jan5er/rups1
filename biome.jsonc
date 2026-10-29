@@ -1,0 +1,54 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.3/schema.json",
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "src/**/*.css",
+      "src/**/*.js",
+      "biome.jsonc",
+      "index.html",
+      "package.json",
+      "vite.config.js"
+    ]
+  },
+  "formatter": {
+    "useEditorconfig": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended"
+    }
+  },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": { "enabled": true }
+  },
+  "javascript": {
+    "formatter": {
+      "operatorLinebreak": "before",
+      "quoteStyle": "double"
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true
+    },
+    "formatter": {
+      "trailingCommas": "none"
+    }
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  }
+}
