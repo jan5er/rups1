@@ -12,6 +12,8 @@
     "includes": [
       "src/**/*.css",
       "src/**/*.js",
+      "src/**/*.jsx",
+      "src/level*",
       "biome.jsonc",
       "index.html",
       "package.json",

@@ -9,6 +9,7 @@
 !/src/assets/*.svg
 !/src/**/*.css
 !/src/**/*.jsx
+!/src/level*
 
 !/.editorconfig
 !/.gitattributes
