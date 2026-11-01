@@ -10,6 +10,8 @@
 !/src/**/*.css
 !/src/**/*.jsx
 !/src/level*
+!/src/level1/*
+!/src/level1/components/*
 
 !/.editorconfig
 !/.gitattributes
