@@ -1,9 +1,13 @@
-import { initHeading } from "./Heading";
+import { headingLevel1JSON, initGenHeading } from "./Heading";
+import * as Blockly from 'blockly/core';
 
-// Export all the code generators for our custom blocks,
-// but don't register them with Blockly yet.
-// This file has no side effects!
+export const blocks = Blockly.common.createBlockDefinitionsFromJsonArray([
+    headingLevel1JSON,
+]);
+
+//Object that saves generetors for blocks
 export const forBlock = Object.create(null);
 
-initHeading();
+//Set generators for blocks
+initGenHeading();
 
