@@ -5,7 +5,7 @@ import { run } from "./interpreter";
 import { TOOLBOX } from "./toolbox";
 import "./App.css";
 
-/** Prešteje resnične bloke (brez senčnih privzetih vrednosti). */
+/** Prešteje resnične bloke (brez senčnih privzetih vrednosti).*/
 function countBlocks(json) {
   let n = 0;
   const walk = (b) => {
