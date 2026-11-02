@@ -1,8 +1,96 @@
+:root {
+  --bg: #f3f5fa; --surface: #ffffff; --surface-2: #f6f8fc; --tx: #172033; --mut: #66708a;
+  --bd: #dfe4ef; --ac: #4c6ef5; --ac-tx: #fff; --good: #2b9a4b; --bad: #d63a3a;
+  --con-bg: #0f1420; --con-tx: #d6e2ff; --con-mut: #7d8aab; --shadow: 0 -8px 30px rgba(10, 20, 50, 0.25);
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e1118; --surface: #171c27; --surface-2: #1d2331; --tx: #e8ebf3; --mut: #9aa3b8;
+    --bd: #2a3245; --good: #55c778; --bad: #ff7676; --con-bg: #0a0d14;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
 html, body, #root { height: 100%; margin: 0; }
-.layout { display: grid; grid-template-columns: 1fr 340px; height: 100%; }
-.editor { height: 100%; min-width: 0; }
-.side { padding: 12px; overflow: auto; border-left: 1px solid #ccc; font-family: system-ui, sans-serif; }
-.side pre { background: #f4f4f4; padding: 8px; font-size: 12px; overflow: auto; }
+body { background: var(--bg); color: var(--tx); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--ac); outline-offset: 2px; }
 
-.editor { height: 100%; } 
+.app { display: grid; grid-template-rows: 60px 1fr; height: 100%; min-height: 0; }
 
+/* Zgornja vrstica */
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; background: var(--surface); border-bottom: 1px solid var(--bd); }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark { font-size: 26px; }
+.brand-name { font-weight: 800; letter-spacing: -0.01em; line-height: 1.1; }
+.brand-sub { color: var(--mut); font-size: 12px; }
+.topbar-actions { display: flex; gap: 10px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--bd); background: var(--surface-2); font-weight: 600; }
+.btn:hover:not(:disabled) { border-color: var(--ac); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn[aria-pressed="true"] { border-color: var(--ac); }
+.btn.primary { background: var(--ac); border-color: var(--ac); color: var(--ac-tx); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.small { padding: 6px 12px; font-size: 13px; }
+kbd { font: 11px ui-monospace, Menlo, Consolas, monospace; background: rgba(255, 255, 255, 0.2); border-radius: 5px; padding: 1px 6px; }
+
+/* Glavna postavitev */
+.main { display: grid; grid-template-columns: 1fr 360px; gap: 12px; padding: 12px; min-height: 0; }
+.stage {
+  position: relative; min-width: 0; min-height: 0;
+  border: 1px solid var(--bd); border-radius: 14px; overflow: hidden;
+  box-shadow: 0 6px 24px rgba(40, 60, 140, 0.12);
+  isolation: isolate;
+}
+.editor { position: absolute; inset: 0; z-index: 0; }
+
+/* Pojavna konzola */
+.drawer { position: absolute; left: 0; right: 0; bottom: 0; height: min(260px, 55%); display: flex; flex-direction: column;
+  background: var(--con-bg); color: var(--con-tx); border-top: 1px solid #ffffff22; box-shadow: var(--shadow);
+  transform: translateY(105%); transition: transform 0.22s ease; z-index: 5; }
+.drawer.open { transform: translateY(0); }
+.drawer-head { display: flex; align-items: center; gap: 12px; padding: 8px 14px; border-bottom: 1px solid #ffffff1a; }
+.drawer-title { font-weight: 700; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+.status { font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 99px; background: #ffffff14; }
+.status.good { color: #6fe08f; }
+.status.bad { color: #ff8585; }
+.spacer { flex: 1; }
+.icon-btn { background: transparent; border: 0; color: var(--con-mut); padding: 4px 8px; border-radius: 6px; }
+.icon-btn:hover { color: var(--con-tx); background: #ffffff14; }
+.drawer-body { flex: 1; overflow: auto; padding: 10px 14px; font: 14px/1.6 ui-monospace, Menlo, Consolas, monospace; }
+.line { display: flex; gap: 14px; }
+.ln { width: 2ch; text-align: right; color: var(--con-mut); user-select: none; flex: none; }
+.txt { white-space: pre-wrap; word-break: break-word; }
+.line.err { color: #ff8585; margin-top: 4px; }
+.muted { margin: 0; color: var(--con-mut); }
+
+/* Stranska plošča */
+.side { display: flex; flex-direction: column; min-height: 0; background: var(--surface); border: 1px solid var(--bd); border-radius: 14px; overflow: hidden; }
+.tabs { display: flex; border-bottom: 1px solid var(--bd); }
+.tabs button { flex: 1; padding: 12px; background: transparent; border: 0; border-bottom: 3px solid transparent; color: var(--mut); font-weight: 600; }
+.tabs button.on { color: var(--tx); border-bottom-color: var(--ac); }
+.panel { flex: 1; min-height: 0; overflow: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.hint { margin: 0; color: var(--mut); font-size: 13px; }
+.code { align-self: stretch; flex: 1; margin: 0; padding: 12px; overflow: auto; background: var(--surface-2); border: 1px solid var(--bd); border-radius: 10px;
+  font: 12.5px/1.55 ui-monospace, Menlo, Consolas, monospace; white-space: pre; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--bd); }
+.stats div { display: flex; flex-direction: column; align-items: center; padding: 10px; }
+.stats div + div { border-left: 1px solid var(--bd); }
+.stats strong { font-size: 20px; }
+.stats span { color: var(--mut); font-size: 12px; }
+
+.stage { box-shadow: 0 6px 24px rgba(40, 60, 140, 0.12); }
+.empty { position: absolute; inset: 0; padding-left: 190px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 6px; pointer-events: none; z-index: 1; color: var(--mut); text-align: center; }
+.empty-emoji { font-size: 44px; opacity: 0.85; }
+.empty p { margin: 0; max-width: 28ch; font-weight: 600; }
+
+
+@media (max-width: 900px) {
+  .main { grid-template-columns: 1fr; grid-template-rows: minmax(420px, 1fr) auto; overflow: auto; }
+  .side { min-height: 320px; }
+  kbd { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .drawer { transition: none; } }
